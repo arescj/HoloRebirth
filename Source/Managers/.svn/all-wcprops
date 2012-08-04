@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/TDbP_caching_edition/!svn/ver/6/Source/Managers
+END
+eventManager.cs
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/TDbP_caching_edition/!svn/ver/1/Source/Managers/eventManager.cs
+END
+staffManager.cs
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/TDbP_caching_edition/!svn/ver/4/Source/Managers/staffManager.cs
+END
+catalogueManager.cs
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/TDbP_caching_edition/!svn/ver/4/Source/Managers/catalogueManager.cs
+END
+stringManager.cs
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/TDbP_caching_edition/!svn/ver/1/Source/Managers/stringManager.cs
+END
+recyclerManager.cs
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/TDbP_caching_edition/!svn/ver/4/Source/Managers/recyclerManager.cs
+END
+navigatorManager.cs
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/TDbP_caching_edition/!svn/ver/6/Source/Managers/navigatorManager.cs
+END
+rankManager.cs
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/TDbP_caching_edition/!svn/ver/1/Source/Managers/rankManager.cs
+END
+roomManager.cs
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/TDbP_caching_edition/!svn/ver/1/Source/Managers/roomManager.cs
+END
+soundMachineManager.cs
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/TDbP_caching_edition/!svn/ver/1/Source/Managers/soundMachineManager.cs
+END
+userManager.cs
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/TDbP_caching_edition/!svn/ver/1/Source/Managers/userManager.cs
+END

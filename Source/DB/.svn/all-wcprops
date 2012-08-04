@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/TDbP_caching_edition/!svn/ver/3/Source/DB
+END
+DatabaseServer.cs
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/TDbP_caching_edition/!svn/ver/3/Source/DB/DatabaseServer.cs
+END
+DatabaseManager.cs
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/TDbP_caching_edition/!svn/ver/1/Source/DB/DatabaseManager.cs
+END
+DatabaseClient.cs
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/TDbP_caching_edition/!svn/ver/1/Source/DB/DatabaseClient.cs
+END
+DatabaseException.cs
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/TDbP_caching_edition/!svn/ver/1/Source/DB/DatabaseException.cs
+END
+Database.cs
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/TDbP_caching_edition/!svn/ver/3/Source/DB/Database.cs
+END
+IDataObject.cs
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/TDbP_caching_edition/!svn/ver/1/Source/DB/IDataObject.cs
+END

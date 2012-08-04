@@ -1,0 +1,7 @@
+[mysql]
+host=
+port=3306
+database=
+username=
+password=
+clientamount=30
