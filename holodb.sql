@@ -1,4 +1,4 @@
-/*
+﻿/*
 MySQL Data Transfer
 Source Host: localhost
 Source Database: holodb 
@@ -935,6 +935,8 @@ CREATE TABLE `users` (
   `consolemission` varchar(50) collate latin1_general_ci default NULL,
   `credits` int(7) NOT NULL default '0',
   `tickets` int(5) NOT NULL default '0',
+  `friend_me` enum('0','1') collate latin1_general_ci NOT NULL default '1',
+  `follow_me` enum('0','1') collate latin1_general_ci NOT NULL default '1',
   `badge_status` enum('0','1') collate latin1_general_ci NOT NULL default '1',
   `lastvisit` varchar(50) collate latin1_general_ci default NULL,
   `figure_swim` varchar(100) collate latin1_general_ci default NULL,
@@ -955,15 +957,8 @@ CREATE TABLE `users` (
   `visibility` int(1) default '1',
   `hc_before` int(1) default NULL,
   `guideavailable` int(1) NOT NULL,
-  `shockwaveid` text collate latin1_general_ci NOT NULL,
   `guide` int(1) NOT NULL,
   `guide-allowed` int(1) NOT NULL,
-  `window` int(3) NOT NULL,
-  `creditos` varchar(3) collate latin1_general_ci NOT NULL default '0',
-  `rango` varchar(1) collate latin1_general_ci default NULL,
-  `bann` varchar(3) collate latin1_general_ci default NULL,
-  `ping` int(3) default NULL,
-  `estado` varchar(3) collate latin1_general_ci default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
