@@ -45,6 +45,10 @@ namespace Holo.Virtual.Users
         /// Specifies if the client has sent the 'CD' packet on time. Being checked by the user manager every minute.
         /// </summary>
         internal bool pingOK;
+        ///
+        /// Bool created for HC Club fix
+        ///
+        public bool clubLoad;
         /// <summary>
         /// Specifies if the client is disconnected already.
         /// </summary>
@@ -162,84 +166,6 @@ namespace Holo.Virtual.Users
 
         private virtualSongEditor songEditor;
         private Thread brbLooper;
-        #endregion
-
-        #region Account Limiting
-        public bool isLimited(string functionName)
-        {
-            /*
-             * login
-             * trading
-             * roomcontrol
-             * declinefriendrequest
-             * acceptfriendrequest
-             * catalogue
-             * sendfriendrequest
-             * joinroom_true  (does own room he/she is joining)
-             * joinroom_false (doesn't own room he/she is joining)
-             * removefriend
-             * followfriend
-             * invitefriend
-             * addfavouriteroom
-             * removefavouriteroom
-             * createroom
-             * modifyroom
-             * createevent
-             * editevent
-             */
-
-            if (userID > 0)
-            {
-                if (_isLimited == 0)
-                {
-                    // This user is not limited, he/she can run any function.
-                    return false;
-                }
-
-                if (_isLimited == 1)
-                {
-                    // This user is limited, he/she can run virtually no functions.
-
-                    if (functionName == "joinroom_true")
-                    {
-                        // Can join his/her own rooms.
-                        return false;
-                    }
-
-                    return true;
-                }
-
-                if (_isLimited == 2)
-                {
-                    // This user is a VIP trial member, he/she can run some functions.
-
-                    if (functionName == "catalogue")
-                    {
-                        // Can view the catalogue and buy from it.
-                        return false;
-                    }
-
-                    if (functionName == "joinroom_true")
-                    {
-                        // Can join his/her own rooms.
-                        return false;
-                    }
-
-                    if (functionName == "roomcontrol")
-                    {
-                        // Can alter his/her own rooms.
-                        return false;
-                    }
-
-                    return true;
-                }
-
-                return true;
-            }
-
-            // Not a valid user, restrict any and all functions.
-            return true;
-        }
         #endregion
 
         #region Constructors/destructors - Preferences
@@ -401,30 +327,6 @@ namespace Holo.Virtual.Users
         /// Processes a single packet from the client.
         /// </summary>
         /// <param name="currentPacket">The packet to process.</param>
-        private bool PollSorter(string Text)
-        {
-            string str = Text;
-            if (str != null)
-            {
-                if (!(str == "I"))
-                {
-                    if (str == "J")
-                    {
-                        sendData("D}IChristmas Puzzle\x0002Thank you for the answer. Unfortunatly I'm still under construction hehe.\x0002JKIKWhat kind of animal was rudolph?\x0002HJKQuestion 2?\x0002");
-                        goto Label_003D;
-                    }
-                }
-                else
-                {
-                    sendData("BKThankyou sir!\r\rNOTE: This is incomplete.");
-                    goto Label_003D;
-                }
-            }
-            return false;
-        Label_003D:
-            return true;
-        }
-
         private void processPacket(string currentPacket)
         {
             string str3;
@@ -437,10 +339,6 @@ namespace Holo.Virtual.Users
                     case "CD":
                         pingOK = true;
                         break;
-
-                    case "Cj":
-                        this.PollSorter(currentPacket.Substring(2));
-                        return;
 
                     ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -773,7 +671,12 @@ namespace Holo.Virtual.Users
                         break;
 
                     case "@Z": // Login - initialize Club subscription status
-                        //refreshClub();
+                        clubLoad = true;
+                        if (_isDisconnected)
+                        {
+                            clubLoad = false;
+                            return;
+                        }
                         break;
 
                     case "@G": // Login - initialize/refresh appearance
@@ -789,7 +692,7 @@ namespace Holo.Virtual.Users
                         {
                             int usercredits = dbClient.getInt("SELECT userid FROM users_logins WHERE userid = '" + userID + "' AND date = '" + today + "'");
                             int users = 1000;
-                            if (usercredits == 0 && _Rank < 3)
+                            if (usercredits == 0 && _Rank == 1 | _Rank == 2)
                             {
                                 dbClient.runQuery("INSERT INTO users_logins (userid, date) VALUES ('" + userID + "','" + today + "')");
                                 dbClient.runQuery("UPDATE users SET credits = credits + '" + users + "' WHERE id = '" + userID + "'");
@@ -826,11 +729,7 @@ namespace Holo.Virtual.Users
                             {
                                 using (DatabaseClient dbClient = Eucalypt.dbManager.GetClient())
                                 {
-                                    {
-                                        // if(frEnabled == false)
-                                        // {
-                                        //     sendData("BK" + "User isn't accepting friend request right now.");
-                                        // }                                            
+                                    {                                           
                                         DataRow dRow;
                                         dbClient.AddParamWithValue("username", currentPacket.Substring(4));
                                         dRow = dbClient.getRow("SELECT name,figure,sex,mission,rank,consolemission,follow_me,friend_request,filter_chat FROM users WHERE id = '" + userID + "'");
@@ -1090,11 +989,6 @@ namespace Holo.Virtual.Users
                             {
                                 if (Messenger != null && roomUser != null)
                                 {
-                                    if (isLimited("invitefriend"))
-                                    {
-                                        sendData("BKUnable to process requested action as this account is limited.");
-                                        return;
-                                    }
                                     int Amount = Encoding.decodeVL64(currentPacket.Substring(2));
                                     int[] IDs = new int[Amount];
                                     currentPacket = currentPacket.Substring(Encoding.encodeVL64(Amount).Length + 2);
@@ -1734,12 +1628,6 @@ namespace Holo.Virtual.Users
 
                                 if (isPublicroom)
                                 {
-                                    if (isLimited("joinroom_false"))
-                                    {
-                                        sendData("BKYou can only join rooms owned by you as your account is limited.");
-                                        sendData("@R");
-                                        return;
-                                    }
                                     string roomModel;
                                     using (DatabaseClient dbClient = Eucalypt.dbManager.GetClient())
                                     {
@@ -4576,22 +4464,25 @@ namespace Holo.Virtual.Users
         /// </summary>
         internal void refreshClub()
         {
-            int restingDays = 0;
-            int passedMonths = 0;
-            int restingMonths = 0;
-            DataRow dRow;
-            using (DatabaseClient dbClient = Eucalypt.dbManager.GetClient())
+            if (clubLoad == true)
             {
-                dRow = dbClient.getRow("SELECT months_expired,months_left,date_monthstarted FROM users_club WHERE userid = '" + userID + "' LIMIT 1");
+                int restingDays = 0;
+                int passedMonths = 0;
+                int restingMonths = 0;
+                DataRow dRow;
+                using (DatabaseClient dbClient = Eucalypt.dbManager.GetClient())
+                {
+                    dRow = dbClient.getRow("SELECT months_expired,months_left,date_monthstarted FROM users_club WHERE userid = '" + userID + "' LIMIT 1");
+                }
+                if (dRow.Table.Columns.Count > 0)
+                {
+                    passedMonths = Convert.ToInt32(dRow["months_expired"]);
+                    restingMonths = Convert.ToInt32(dRow["months_left"]) - 1;
+                    restingDays = (int)(DateTime.Parse(Convert.ToString(dRow["date_monthstarted"]), new System.Globalization.CultureInfo("en-GB"))).Subtract(DateTime.Now).TotalDays + 31;
+                    _clubMember = true;
+                }
+                sendData("@Gclub_habbo" + Convert.ToChar(2) + Encoding.encodeVL64(restingDays) + Encoding.encodeVL64(passedMonths) + Encoding.encodeVL64(restingMonths) + "I");
             }
-            if (dRow.Table.Columns.Count > 0)
-            {
-                passedMonths = Convert.ToInt32(dRow["months_expired"]);
-                restingMonths = Convert.ToInt32(dRow["months_left"]) - 1;
-                restingDays = (int)(DateTime.Parse(Convert.ToString(dRow["date_monthstarted"]), new System.Globalization.CultureInfo("en-GB"))).Subtract(DateTime.Now).TotalDays + 32;
-                _clubMember = true;
-            }
-            sendData("@Gclub_habbo" + Convert.ToChar(2) + Encoding.encodeVL64(restingDays) + Encoding.encodeVL64(passedMonths) + Encoding.encodeVL64(restingMonths) + "I");
         }
         /// <summary>
         /// Refreshes the user's badges.
