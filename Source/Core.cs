@@ -17,7 +17,7 @@ namespace Holo
         private static Thread serverMonitor = new Thread(new ThreadStart(monitorServer));
         public delegate void commonDelegate();
 
-        public static string serverVersion = "Holo TDbP EXTREME edition - Dissi";
+        public static string serverVersion = "Dissi Total DB Pooling";
 
         public static int gameMaxConnections;
         public static string dbHost;

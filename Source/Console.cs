@@ -95,16 +95,6 @@ namespace Holo
         public static void WriteTrace(string logText)
         {
             return;
-            /*DateTime _DTN = DateTime.Now;
-            StackFrame _SF = new StackTrace().GetFrame(1);
-            Console.Write("[" + _DTN.ToLongTimeString() + ":" + _DTN.Millisecond.ToString() + "] [");
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            Console.Write(_SF.GetMethod().ReflectedType.Name + "." + _SF.GetMethod().Name);
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.Write("] » ");
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            Console.WriteLine(logText);
-            Console.ForegroundColor = ConsoleColor.Gray;*/
         }
         /// <summary>
         /// Prints a red, error line of log, together with timestamp and method name.
@@ -179,8 +169,6 @@ namespace Holo
         /// <param name="headerColor">The color for the header in the logText.</param>
         public static void WriteSpecialLine(string logText, logFlags logFlag, ConsoleColor colorOne, ConsoleColor colorTwo, string headerHead, int headerLength, ConsoleColor headerColor)
         {
-            //if ((int)logFlag < (int)minimumImportance)
-                //return;
             wait();
             bwait = true;
             DateTime _DTN = DateTime.Now;

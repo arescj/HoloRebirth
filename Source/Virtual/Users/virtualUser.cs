@@ -151,7 +151,7 @@ namespace Holo.Virtual.Users
         internal bool _hasRights;
         internal bool _isMuted;
 
-        public int _isLimited = 0;
+        //public int _isLimited = 0;
 
         internal int _groupID;
         internal int _groupMemberRank;
@@ -672,7 +672,7 @@ namespace Holo.Virtual.Users
 
                     case "@Z": // Login - initialize Club subscription status
                         clubLoad = true;
-                        if (_isDisconnected)
+                        if (_isLoggedIn == false)
                         {
                             clubLoad = false;
                             return;

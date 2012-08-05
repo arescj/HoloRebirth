@@ -138,8 +138,8 @@ namespace Holo
             if (Rooms_LoadAvertisement_img != "")
             {
                 Rooms_LoadAvertisement_uri = getTableEntry("rooms_loadadvertisement_uri");
-                if(stringManager.getStringPart(Rooms_LoadAvertisement_uri,0,7) != "http://mistlodge.com")
-                    Rooms_LoadAvertisement_uri = "http://www.mistlodge.com";
+                if(stringManager.getStringPart(Rooms_LoadAvertisement_uri,0,7) != "null")
+                    Rooms_LoadAvertisement_uri = "null";
             }
             Rooms_roomBan_banDuration = int.Parse(getTableEntry("rooms_roomban_duration"));
 
