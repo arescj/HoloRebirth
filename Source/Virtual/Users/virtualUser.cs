@@ -692,11 +692,35 @@ namespace Holo.Virtual.Users
                         {
                             int usercredits = dbClient.getInt("SELECT userid FROM users_logins WHERE userid = '" + userID + "' AND date = '" + today + "'");
                             int users = 1000;
+                            int users_34 = 2000;
+                            int users_56 = 3000;
+                            int users_7 = 4000;
                             if (usercredits == 0 && _Rank == 1 | _Rank == 2)
                             {
                                 dbClient.runQuery("INSERT INTO users_logins (userid, date) VALUES ('" + userID + "','" + today + "')");
                                 dbClient.runQuery("UPDATE users SET credits = credits + '" + users + "' WHERE id = '" + userID + "'");
                                 sendData("BK" + "You have just received 1,000 coins from the daily system!");
+                                refreshValueables(true, false);
+                            }
+                            if (usercredits == 0 && _Rank == 3 | _Rank == 4)
+                            {
+                                dbClient.runQuery("INSERT INTO users_logins (userid, date) VALUES ('" + userID + "','" + today + "')");
+                                dbClient.runQuery("UPDATE users SET credits = credits + '" + users_34 + "' WHERE id = '" + userID + "'");
+                                sendData("BK" + "You have just received 2,000 coins from the daily system!");
+                                refreshValueables(true, false);
+                            }
+                            if (usercredits == 0 && _Rank == 5 | _Rank == 6)
+                            {
+                                dbClient.runQuery("INSERT INTO users_logins (userid, date) VALUES ('" + userID + "','" + today + "')");
+                                dbClient.runQuery("UPDATE users SET credits = credits + '" + users_56 + "' WHERE id = '" + userID + "'");
+                                sendData("BK" + "You have just received 3,000 coins from the daily system!");
+                                refreshValueables(true, false);
+                            }
+                            if (usercredits == 0 && _Rank == 7)
+                            {
+                                dbClient.runQuery("INSERT INTO users_logins (userid, date) VALUES ('" + userID + "','" + today + "')");
+                                dbClient.runQuery("UPDATE users SET credits = credits + '" + users_7 + "' WHERE id = '" + userID + "'");
+                                sendData("BK" + "You have just received 4,000 coins from the daily system!");
                                 refreshValueables(true, false);
                             }
                         }
@@ -724,7 +748,6 @@ namespace Holo.Virtual.Users
                     #region Messenger - Preferences
                     case "@g": // Messenger - request user as friend
                         {
-                            // Trying to complete the F/R completion of fr_enabled and fr_disabled. //
                             if (Messenger != null)
                             {
                                 using (DatabaseClient dbClient = Eucalypt.dbManager.GetClient())
@@ -741,6 +764,11 @@ namespace Holo.Virtual.Users
                                             if (userManager.getUser(toID) != null)
                                             {
                                                 userManager.getUser(toID).sendData("BD" + "I" + _Username + Convert.ToChar(2) + userID + Convert.ToChar(2));
+                                            }
+                                            if (frEnabled == false)
+                                            {
+                                                sendData("BK" + "User is currently not accepting friend requests, request is deleted.");
+                                                dbClient.runQuery("DELETE FROM messenger_friendrequests(userid_to,userid_from,requestid) VALUES ('" + toID + "','" + userID + "','" + requestID + "')");
                                             }
                                         }
                                     }
@@ -4677,6 +4705,21 @@ namespace Holo.Virtual.Users
             StringBuilder sb = new StringBuilder("BK");
             using (DatabaseClient dbClient = Eucalypt.dbManager.GetClient())
             {
+                if (friendRequest == 1)
+                {
+                    frEnabled = true;
+                    sb.Append(stringManager.getString("Friend Request enabled") + "\r");
+                }
+                else
+                {
+                    frEnabled = false;
+                    sb.Append(stringManager.getString("Friend Request disabled") + "\r");
+                }
+                if (!MUS)
+                    dbClient.runQuery("UPDATE users SET friend_me = '" + friendRequest.ToString() + "' WHERE id = '" + userID + "' LIMIT 1");
+
+                sendData(sb.ToString());
+
                 if (followMe == 1)
                 {
                     followEnabled = true;
