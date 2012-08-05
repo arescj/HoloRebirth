@@ -27,6 +27,7 @@ namespace Holo
         public static string dbName;
         public static uint dbMaxConnections;
         public static int dbPool;
+        public static string habboVersion;
         public static DatabaseManager dbManager;
         public static Ion.Storage.Database database;
 
@@ -81,6 +82,7 @@ namespace Holo
             dbUsername = IO.readINI("mysql", "username", sqlConfigLocation);
             dbPassword = IO.readINI("mysql", "password", sqlConfigLocation);
             dbName = IO.readINI("mysql", "database", sqlConfigLocation);
+            habboVersion = "r26";
             dbMaxConnections = uint.Parse(IO.readINI("mysql", "clientamount", sqlConfigLocation));
 
             Out.WriteBlank();
@@ -165,7 +167,7 @@ namespace Holo
 
             DateTime _STOP = DateTime.Now;
             TimeSpan _TST = _STOP - _START;
-            Out.WriteLine("Echo Total DB Pooling >> MySQL Net Connector 5.2.5 >> Hotel Emulator - Startup Time: " + _TST.TotalMilliseconds.ToString() + ".");
+            Out.WriteLine("Total DB Pooling >> MySQL Net Connector 5.2.5 >> Hotel Emulator - Startup Time: " + _TST.TotalMilliseconds.ToString() + ".");
 
             GC.Collect();
             //Out.WriteLine("Holo TDbP EXTREME edition Hotel Emulator - Ready!");
@@ -236,7 +238,7 @@ namespace Holo
                 int starvationNumber = dbManager.getStarvationNumber();
                 int acceptedConnections = gameSocketServer.acceptedConnections;
                 long memUsage = GC.GetTotalMemory(false) / 1024;
-                Console.Title = "Echo revised emulator!!! | Connected Users: " + onlineCount + " | Loaded Rooms: " + roomCount + " | RAM usage: " + memUsage + "KB | Max Connections: " + peakOnlineCount + " | SQL Starvation: " + starvationNumber + " | SQL Connections: " + dbManager.databaseClients;
+                Console.Title = "Connected Users: " + onlineCount + " | Loaded Rooms: " + roomCount + " | RAM usage: " + memUsage + "KB | Max Connections: " + peakOnlineCount + " | SQL Starvation: " + starvationNumber + " | SQL Connections: " + dbManager.databaseClients + " | Habbo Version " + habboVersion;
                 using (DatabaseClient dbClient = dbManager.GetClient())
                 {
                     dbClient.runQuery("UPDATE system SET onlinecount = '" + onlineCount + "',onlinecount_peak = '" + peakOnlineCount + "',activerooms = '" + roomCount + "',activerooms_peak = '" + peakRoomCount + "',connections_accepted = '" + acceptedConnections + "'");
