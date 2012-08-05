@@ -204,3 +204,5 @@ C:\Users\Cee-Jay\Desktop\[C#, SQL, r26] Release by AresCJ\obj\Debug\ResolveAssem
 C:\Users\Cee-Jay\Desktop\[C#, SQL, r26] Release by AresCJ\obj\Debug\Holo.Properties.Resources.resources
 C:\Users\Cee-Jay\Desktop\[C#, SQL, r26] Release by AresCJ\obj\Debug\GenerateResource.read.1.tlog
 C:\Users\Cee-Jay\Desktop\[C#, SQL, r26] Release by AresCJ\obj\Debug\GenerateResource.write.1.tlog
+C:\Documents and Settings\Cornelius\My Documents\GitHub\HoloRebirth\obj\Debug\Holograph Emulator.exe
+C:\Documents and Settings\Cornelius\My Documents\GitHub\HoloRebirth\obj\Debug\Holograph Emulator.pdb
